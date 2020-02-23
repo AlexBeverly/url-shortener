@@ -1,0 +1,17 @@
+body {
+    background-color: #222;
+    color: #fff;
+}
+
+h1 {
+    margin: 10px;
+}
+
+#inputs {
+    margin-left: 15px;
+}
+
+#message {
+    margin-top: 2px;
+    color: #f00;
+}

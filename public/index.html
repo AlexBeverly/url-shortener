@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/CSS/style.css">
+    <title>URL Shortener</title>
+</head>
+
+<body>
+    <h1>Link Shortener</h1>
+    <div id="inputs">
+        <input type="text" name="URL" id="urlInput" placeholder="Enter link to shorten">
+        <button type="submit" id="submitbtn" onclick="sendURL(document.getElementById('urlInput').value)">Submit</button>
+        <p id="message"></p>
+    </div>
+
+
+    <script>
+        const sendURL = async url => {
+
+            if (!url) {
+                document.getElementById('message').innerHTML = "please enter a link";
+                return;
+            }
+            document.getElementById('urlInput').disabled = true;
+            document.getElementById('submitbtn').disabled = true;
+
+            //put url in an object
+            const urlToShorten = {
+                url
+            };
+
+            //set fetch options
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(urlToShorten)
+            };
+
+            const res = await fetch('/url', options);
+            const redirectLink = await res.json();
+
+            console.log(redirectLink);
+            document.body.removeChild(document.getElementById('inputs'));
+            document.body.innerHTML += `<p>Shortened link: </p>
+            <a href="${redirectLink.redirect}">${redirectLink.redirect}</a>
+            <p>Link will be available for 2 hours</p>`;
+        }
+    </script>
+</body>
+
+</html>
